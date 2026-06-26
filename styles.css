@@ -330,7 +330,7 @@ h3 {
 .match-card {
   display: flex;
   flex-direction: column;
-  min-height: 292px;
+  min-height: 440px;
   padding: 14px;
   background: var(--panel-strong);
 }
@@ -387,6 +387,99 @@ h3 {
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 800;
+}
+
+.match-card__odds {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.match-card__odds-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.match-card__odds-top small {
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 850;
+  text-align: right;
+  text-transform: none;
+}
+
+.match-card__probabilities {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.match-card__probabilities span {
+  min-width: 0;
+  padding: 7px 6px;
+  border-radius: 6px;
+  background: rgba(4, 15, 25, 0.34);
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 950;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.match-card__probabilities strong,
+.match-card__probabilities small {
+  display: block;
+}
+
+.match-card__probabilities strong {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.61rem;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.match-card__probabilities small {
+  margin-top: 2px;
+  color: rgba(238, 247, 255, 0.66);
+  font-size: 0.62rem;
+  font-weight: 850;
+}
+
+.match-card__scotland-chance,
+.match-card__odds-note {
+  margin-bottom: 0;
+}
+
+.match-card__scotland-chance {
+  color: var(--ink);
+  font-size: 0.76rem;
+  font-weight: 850;
+  line-height: 1.24;
+}
+
+.match-card__scotland-chance strong {
+  color: var(--good);
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.match-card__odds-note {
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.25;
 }
 
 .match-card__status {
@@ -511,7 +604,7 @@ footer p {
   }
 
   .match-card {
-    min-height: 256px;
+    min-height: 410px;
   }
 
   .hero__flag-row {

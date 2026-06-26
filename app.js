@@ -124,6 +124,80 @@ const conditions = [
   },
 ];
 
+const oddsSnapshot = {
+  updated: "26 Jun, pre-match",
+  source: "Manual betting-portal snapshot",
+  matches: {
+    "egy-iran": {
+      note: "Match result",
+      outcomes: [
+        { key: "home", label: "Egypt", odds: "7/5" },
+        { key: "draw", label: "Draw", odds: "9/5" },
+        { key: "away", label: "Iran", odds: "13/5" },
+      ],
+      scotlandKey: "home",
+    },
+    "uru-spain": {
+      note: "Match result",
+      outcomes: [
+        { key: "home", label: "Uruguay", odds: "4/1" },
+        { key: "draw", label: "Draw", odds: "11/4" },
+        { key: "away", label: "Spain", odds: "8/13" },
+      ],
+      scotlandKey: "away",
+    },
+    "sen-iraq": {
+      note: "Match result plus margin estimate",
+      outcomes: [
+        { key: "home", label: "Senegal", odds: "-180" },
+        { key: "draw", label: "Draw", odds: "16/5" },
+        { key: "away", label: "Iraq", odds: "11/2" },
+      ],
+      scotlandProbability: 30,
+      scotlandLabel: "Draw or Iraq by 1",
+    },
+    "alg-austria": {
+      note: "Match result plus margin estimate",
+      outcomes: [
+        { key: "home", label: "Algeria", odds: "9/4" },
+        { key: "draw", label: "Draw", odds: "12/5" },
+        { key: "away", label: "Austria", odds: "6/5" },
+      ],
+      scotlandProbability: 23,
+      scotlandLabel: "Austria by 2+ or Algeria by 4+",
+    },
+    "col-portugal": {
+      note: "Match result",
+      outcomes: [
+        { key: "home", label: "Colombia", odds: "8/5" },
+        { key: "draw", label: "Draw", odds: "23/10" },
+        { key: "away", label: "Portugal", odds: "17/10" },
+      ],
+      scotlandKey: "draw",
+    },
+    "drcongo-uzbekistan": {
+      note: "Match result plus margin estimate",
+      outcomes: [
+        { key: "home", label: "DR Congo", odds: "13/10" },
+        { key: "draw", label: "Draw", odds: "21/10" },
+        { key: "away", label: "Uzbekistan", odds: "23/10" },
+      ],
+      scotlandProbability: 13,
+      scotlandLabel: "Uzbekistan by 1",
+    },
+    "croatia-ghana": {
+      note: "Match result plus margin estimate",
+      outcomes: [
+        { key: "home", label: "Croatia", odds: "10/11" },
+        { key: "draw", label: "Draw", odds: "5/2" },
+        { key: "away", label: "Ghana", odds: "16/5" },
+      ],
+      scotlandProbability: 5,
+      scotlandLabel: "Ghana by 3+",
+    },
+  },
+};
+
 const scoreState = new Map();
 const conditionGrid = document.querySelector("#conditions-grid");
 const matchesGrid = document.querySelector("#matches-grid");
@@ -167,6 +241,95 @@ function hasStarted(match) {
   return Date.now() >= new Date(match.kickoff).getTime();
 }
 
+function oddsToDecimal(odds) {
+  if (typeof odds === "number") return odds;
+  const value = String(odds).trim();
+  if (value.includes("/")) {
+    const [numerator, denominator] = value.split("/").map(Number);
+    return numerator / denominator + 1;
+  }
+  const american = Number(value);
+  if (!Number.isFinite(american)) return null;
+  if (american > 0) return american / 100 + 1;
+  return 100 / Math.abs(american) + 1;
+}
+
+function oddsProbabilities(matchId) {
+  const odds = oddsSnapshot.matches[matchId];
+  if (!odds) return null;
+
+  const outcomes = odds.outcomes
+    .map((outcome) => ({
+      ...outcome,
+      decimal: oddsToDecimal(outcome.odds),
+    }))
+    .filter((outcome) => outcome.decimal && outcome.decimal > 1);
+  const bookTotal = outcomes.reduce((total, outcome) => total + 1 / outcome.decimal, 0);
+
+  return {
+    ...odds,
+    outcomes: outcomes.map((outcome) => ({
+      ...outcome,
+      probability: ((1 / outcome.decimal) / bookTotal) * 100,
+    })),
+  };
+}
+
+function formatProbability(value) {
+  if (!Number.isFinite(value)) return "--";
+  if (value < 10) return `${value.toFixed(1)}%`;
+  return `${Math.round(value)}%`;
+}
+
+function scotlandProbability(odds) {
+  if (!odds) return null;
+  if (Number.isFinite(odds.scotlandProbability)) {
+    return {
+      label: odds.scotlandLabel || "Scotland-helping outcome",
+      probability: odds.scotlandProbability,
+    };
+  }
+  const outcome = odds.outcomes.find((entry) => entry.key === odds.scotlandKey);
+  if (!outcome) return null;
+  return {
+    label: odds.scotlandLabel || outcome.label,
+    probability: outcome.probability,
+  };
+}
+
+function oddsMarkup(match) {
+  const odds = oddsProbabilities(match.id);
+  const helpingOdds = scotlandProbability(odds);
+  if (!odds || !helpingOdds) return "";
+
+  const outcomeItems = odds.outcomes
+    .map(
+      (outcome) => `
+        <span>
+          <strong>${outcome.label}</strong>
+          ${formatProbability(outcome.probability)}
+          <small>${outcome.odds}</small>
+        </span>
+      `,
+    )
+    .join("");
+
+  return `
+    <div class="match-card__odds" aria-label="Betting-implied probabilities">
+      <div class="match-card__odds-top">
+        <span>Odds picture</span>
+        <small>${oddsSnapshot.updated}</small>
+      </div>
+      <div class="match-card__probabilities">${outcomeItems}</div>
+      <p class="match-card__scotland-chance">
+        <strong>${formatProbability(helpingOdds.probability)}</strong>
+        ${helpingOdds.label}
+      </p>
+      <p class="match-card__odds-note">${odds.note}</p>
+    </div>
+  `;
+}
+
 function renderShell() {
   conditionGrid.innerHTML = conditions
     .map(
@@ -192,6 +355,7 @@ function renderShell() {
           <h3 class="match-card__teams">${match.home} <span>v</span> ${match.away}</h3>
           <p class="match-card__time">${formatKickoff(match.kickoff)}<br><strong>${formatCountdown(match.kickoff)}</strong></p>
           <p class="match-card__score">--<small>${match.desired}</small></p>
+          ${oddsMarkup(match)}
           <p class="match-card__status">Waiting</p>
         </article>
       `,
@@ -324,10 +488,11 @@ function evaluateCondition(condition) {
 
   const helps = knownScores.some(({ match, score }) => match.helps(score));
   const scoreBits = knownScores.map(({ match, score }) => `${match.home} ${score.home}-${score.away} ${match.away}`);
+  const stillLive = knownScores.some(({ score }) => score.state !== "post");
 
   return {
     state: helps ? "good" : "bad",
-    pill: helps ? "Landing" : "Missing",
+    pill: stillLive ? (helps ? "Ongoing" : "Currently not enough") : helps ? "Landing" : "Missing",
     line: scoreBits.join(" / "),
   };
 }
