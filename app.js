@@ -468,7 +468,9 @@ function updateMatchCards() {
         ? "Score pending"
         : helping
           ? "Helps Scotland"
-          : "Not enough";
+          : score.state === "post"
+            ? "Not enough"
+            : "Currently not enough";
   }
 }
 
