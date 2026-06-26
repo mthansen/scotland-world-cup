@@ -173,7 +173,7 @@ h3 {
 .meter {
   display: grid;
   place-items: center;
-  flex: 0 0 112px;
+  flex: 0 0 128px;
   aspect-ratio: 1;
   border: 8px solid rgba(255, 255, 255, 0.14);
   border-top-color: var(--gold);
@@ -188,10 +188,11 @@ h3 {
 }
 
 .meter small {
-  width: min-content;
+  width: 92px;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   font-weight: 700;
+  line-height: 1.18;
   text-align: center;
   text-transform: uppercase;
 }

@@ -153,6 +153,7 @@ const scoreState = new Map();
 const conditionGrid = document.querySelector("#conditions-grid");
 const matchesGrid = document.querySelector("#matches-grid");
 const metCount = document.querySelector("#met-count");
+const meterSummary = document.querySelector("#meter-summary");
 const qualificationLine = document.querySelector("#qualification-line");
 const lastUpdated = document.querySelector("#last-updated");
 const refreshButton = document.querySelector("#refresh-scores");
@@ -445,6 +446,7 @@ function evaluateCondition(condition) {
 
   return {
     state: helps ? "good" : "bad",
+    live: stillLive,
     pill: stillLive ? (helps ? "Ongoing" : "Currently not enough") : helps ? "Landing" : "Missing",
     line: scoreBits.join(" / "),
   };
@@ -452,10 +454,14 @@ function evaluateCondition(condition) {
 
 function updateConditionCards() {
   let landing = 0;
+  let ongoing = 0;
+  let failed = 0;
 
   for (const condition of conditions) {
     const result = evaluateCondition(condition);
     if (result.state === "good") landing += 1;
+    if (result.live) ongoing += 1;
+    if (result.state === "bad" && !result.live) failed += 1;
 
     const card = document.querySelector(`[data-condition="${condition.id}"]`);
     card.classList.remove("is-good", "is-bad", "is-waiting");
@@ -465,10 +471,11 @@ function updateConditionCards() {
   }
 
   metCount.textContent = landing;
+  meterSummary.textContent = `of 6 Landing (${ongoing} ongoing/${failed} failed)`;
   qualificationLine.textContent =
     landing >= 4
       ? "Current scores would put Scotland through."
-      : `${Math.max(4 - landing, 0)} more result${4 - landing === 1 ? "" : "s"} needed from the live picture.`;
+      : `Live picture: ${landing} landing, ${ongoing} ongoing, ${failed} failed.`;
 }
 
 function updateTimestamp(matched = 0) {
