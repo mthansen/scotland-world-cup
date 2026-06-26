@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Scotland's Knockout Watch</title>
+    <meta name="description" content="A live checklist of the results Scotland need to reach the World Cup knockout phase.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__media" aria-hidden="true">
+        <img src="assets/scotland-football-flags.svg" alt="">
+      </div>
+      <div class="hero__content">
+        <p class="eyebrow">World Cup group-stage watch</p>
+        <h1>Scotland need four of these six results.</h1>
+        <p class="intro">
+          The knockout path is narrow but readable: six outside results are in play,
+          and any four going Scotland's way is enough.
+        </p>
+        <div class="hero__meter" aria-live="polite">
+          <div class="meter">
+            <span id="met-count">0</span>
+            <small>of 6 landing</small>
+          </div>
+          <div>
+            <p id="qualification-line" class="qualification-line">Waiting for the matches to begin.</p>
+            <p id="last-updated" class="last-updated">Scores update automatically after kickoff.</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section section--tight" aria-labelledby="conditions-title">
+        <div class="section__header">
+          <p class="eyebrow">The six doors</p>
+          <h2 id="conditions-title">Required result checklist</h2>
+        </div>
+        <div id="conditions-grid" class="conditions-grid"></div>
+      </section>
+
+      <section class="section" aria-labelledby="matches-title">
+        <div class="section__header section__header--split">
+          <div>
+            <p class="eyebrow">Kickoffs in Europe/London</p>
+            <h2 id="matches-title">Match control room</h2>
+          </div>
+          <button id="refresh-scores" class="icon-button" type="button" aria-label="Refresh scores" title="Refresh scores">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 12a9 9 0 0 1-15.36 6.36M3 12A9 9 0 0 1 18.36 5.64"></path>
+              <path d="M21 3v6h-6M3 21v-6h6"></path>
+            </svg>
+          </button>
+        </div>
+        <div id="matches-grid" class="matches-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Kickoff times are shown for the Europe/London timezone. Live scores depend on public browser-accessible feeds.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

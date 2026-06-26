@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Scottish flag, football, and competing nation flags</title>
+  <desc id="desc">A dramatic illustrated Scotland football watch image with a Saltire, a football, and flag ribbons for the countries playing.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#033f82"/>
+      <stop offset=".52" stop-color="#035a9c"/>
+      <stop offset="1" stop-color="#06243a"/>
+    </linearGradient>
+    <linearGradient id="grass" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#2fa76b"/>
+      <stop offset="1" stop-color="#0b543d"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="28" stdDeviation="24" flood-color="#00111c" flood-opacity=".42"/>
+    </filter>
+    <pattern id="net" width="58" height="58" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+      <path d="M0 0H58V58H0Z" fill="none"/>
+      <path d="M0 0 58 58M58 0 0 58" stroke="#ffffff" stroke-opacity=".12" stroke-width="4"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1100" fill="url(#sky)"/>
+  <rect width="1600" height="1100" fill="url(#net)" opacity=".85"/>
+  <path d="M0 760C220 690 382 736 564 782C800 842 1034 786 1238 742C1380 712 1496 718 1600 750V1100H0Z" fill="url(#grass)"/>
+
+  <g opacity=".9">
+    <path d="M-250 35 1640 930" stroke="#fff" stroke-width="116"/>
+    <path d="M-220 100 1600 980" stroke="#0065bd" stroke-width="58"/>
+    <path d="M-140 1000 1700 62" stroke="#fff" stroke-width="116"/>
+    <path d="M-100 935 1640 40" stroke="#0065bd" stroke-width="58"/>
+  </g>
+
+  <g transform="translate(530 245)" filter="url(#softShadow)">
+    <circle cx="285" cy="285" r="218" fill="#f8faf6"/>
+    <path d="M285 92 376 156 341 263H229L194 156Z" fill="#11151a"/>
+    <path d="M154 250 229 263 266 365 188 422 104 363Z" fill="#11151a"/>
+    <path d="M416 250 466 363 382 422 304 365 341 263Z" fill="#11151a"/>
+    <path d="M213 463 285 408 357 463 330 548H240Z" fill="#11151a"/>
+    <path d="M194 156 104 208 104 363M376 156 466 208 466 363M188 422 240 548M382 422 330 548M229 263 154 250M341 263 416 250M266 365H304" fill="none" stroke="#11151a" stroke-width="16" stroke-linecap="round"/>
+    <circle cx="285" cy="285" r="218" fill="none" stroke="#d8ded8" stroke-width="14"/>
+  </g>
+
+  <g transform="translate(200 120)" filter="url(#softShadow)">
+    <path d="M0 0H420V252H0Z" fill="#0065bd"/>
+    <path d="M-20 0 420 252M440 0 0 252" stroke="#fff" stroke-width="56"/>
+    <path d="M-4 0 424 252M424 0 -4 252" stroke="#0065bd" stroke-width="26"/>
+    <path d="M0 0H420V252H0Z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="8"/>
+  </g>
+
+  <g transform="translate(105 806)">
+    <g transform="translate(0 0)"><rect width="82" height="54" fill="#ce1126"/><rect y="18" width="82" height="18" fill="#fff"/><rect y="36" width="82" height="18" fill="#000"/><circle cx="41" cy="27" r="8" fill="#d4af37"/></g>
+    <g transform="translate(100 0)"><rect width="82" height="54" fill="#239f40"/><rect y="18" width="82" height="18" fill="#fff"/><rect y="36" width="82" height="18" fill="#da0000"/></g>
+    <g transform="translate(200 0)"><rect width="82" height="54" fill="#aa151b"/><rect y="14" width="82" height="26" fill="#f1bf00"/></g>
+    <g transform="translate(300 0)"><rect width="82" height="54" fill="#fff"/><path d="M0 0H82L0 54Z" fill="#75aadb"/><path d="M82 0V54H0Z" fill="#75aadb"/><circle cx="41" cy="27" r="12" fill="#f6d24a"/></g>
+    <g transform="translate(400 0)"><rect width="82" height="54" fill="#00853f"/><rect x="27" width="28" height="54" fill="#fdef42"/><rect x="55" width="27" height="54" fill="#e31b23"/></g>
+    <g transform="translate(500 0)"><rect width="82" height="54" fill="#ce1126"/><rect y="18" width="82" height="18" fill="#fff"/><rect y="36" width="82" height="18" fill="#000"/><text x="41" y="34" fill="#239f40" font-size="16" text-anchor="middle" font-family="Arial" font-weight="700">★</text></g>
+    <g transform="translate(600 0)"><rect width="82" height="54" fill="#fff"/><rect x="0" width="27" height="54" fill="#006233"/><rect x="55" width="27" height="54" fill="#d21034"/></g>
+    <g transform="translate(700 0)"><rect width="82" height="54" fill="#ed2939"/><rect x="27" width="28" height="54" fill="#fff"/></g>
+    <g transform="translate(800 0)"><rect width="82" height="54" fill="#fcd116"/><rect y="27" width="82" height="27" fill="#ce1126"/><rect width="41" height="27" fill="#003893"/></g>
+    <g transform="translate(900 0)"><rect width="82" height="54" fill="#006600"/><rect x="34" width="14" height="54" fill="#ff0000"/><rect width="34" height="54" fill="#006600"/></g>
+    <g transform="translate(1000 0)"><rect width="82" height="18" fill="#1eb53a"/><rect y="18" width="82" height="18" fill="#fff"/><rect y="36" width="82" height="18" fill="#0099b5"/></g>
+    <g transform="translate(1100 0)"><rect width="82" height="54" fill="#007fff"/><path d="M0 0H82L0 54Z" fill="#f7d618"/><path d="M82 0V54H0Z" fill="#ce1021"/></g>
+    <g transform="translate(1200 0)"><rect width="82" height="18" fill="#ce1126"/><rect y="18" width="82" height="18" fill="#fcd116"/><rect y="36" width="82" height="18" fill="#006b3f"/><text x="41" y="35" fill="#111" font-size="17" text-anchor="middle" font-family="Arial" font-weight="700">★</text></g>
+    <g transform="translate(1300 0)"><rect width="82" height="54" fill="#f00"/><rect x="25" width="32" height="54" fill="#fff"/><rect width="25" height="54" fill="#171796"/></g>
+  </g>
+</svg>
