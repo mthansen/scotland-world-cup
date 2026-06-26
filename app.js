@@ -125,11 +125,11 @@ const conditions = [
 ];
 
 const oddsSnapshot = {
-  updated: "26 Jun, pre-match",
-  source: "Manual betting-portal snapshot",
+  updated: "26 Jun, source-backed",
+  source: "Public web lookup",
   matches: {
     "egy-iran": {
-      note: "Match result",
+      note: "Source-backed match result prices from a public betting preview.",
       outcomes: [
         { key: "home", label: "Egypt", odds: "7/5" },
         { key: "draw", label: "Draw", odds: "9/5" },
@@ -138,62 +138,13 @@ const oddsSnapshot = {
       scotlandKey: "home",
     },
     "uru-spain": {
-      note: "Match result",
+      note: "Source-backed match result prices from a public betting preview.",
       outcomes: [
-        { key: "home", label: "Uruguay", odds: "4/1" },
-        { key: "draw", label: "Draw", odds: "11/4" },
-        { key: "away", label: "Spain", odds: "8/13" },
+        { key: "home", label: "Uruguay", odds: "6/1" },
+        { key: "draw", label: "Draw", odds: "3/1" },
+        { key: "away", label: "Spain", odds: "4/9" },
       ],
       scotlandKey: "away",
-    },
-    "sen-iraq": {
-      note: "Match result plus margin estimate",
-      outcomes: [
-        { key: "home", label: "Senegal", odds: "-180" },
-        { key: "draw", label: "Draw", odds: "16/5" },
-        { key: "away", label: "Iraq", odds: "11/2" },
-      ],
-      scotlandProbability: 30,
-      scotlandLabel: "Draw or Iraq by 1",
-    },
-    "alg-austria": {
-      note: "Match result plus margin estimate",
-      outcomes: [
-        { key: "home", label: "Algeria", odds: "9/4" },
-        { key: "draw", label: "Draw", odds: "12/5" },
-        { key: "away", label: "Austria", odds: "6/5" },
-      ],
-      scotlandProbability: 23,
-      scotlandLabel: "Austria by 2+ or Algeria by 4+",
-    },
-    "col-portugal": {
-      note: "Match result",
-      outcomes: [
-        { key: "home", label: "Colombia", odds: "8/5" },
-        { key: "draw", label: "Draw", odds: "23/10" },
-        { key: "away", label: "Portugal", odds: "17/10" },
-      ],
-      scotlandKey: "draw",
-    },
-    "drcongo-uzbekistan": {
-      note: "Match result plus margin estimate",
-      outcomes: [
-        { key: "home", label: "DR Congo", odds: "13/10" },
-        { key: "draw", label: "Draw", odds: "21/10" },
-        { key: "away", label: "Uzbekistan", odds: "23/10" },
-      ],
-      scotlandProbability: 13,
-      scotlandLabel: "Uzbekistan by 1",
-    },
-    "croatia-ghana": {
-      note: "Match result plus margin estimate",
-      outcomes: [
-        { key: "home", label: "Croatia", odds: "10/11" },
-        { key: "draw", label: "Draw", odds: "5/2" },
-        { key: "away", label: "Ghana", odds: "16/5" },
-      ],
-      scotlandProbability: 5,
-      scotlandLabel: "Ghana by 3+",
     },
   },
 };
@@ -317,7 +268,7 @@ function oddsMarkup(match) {
   return `
     <div class="match-card__odds" aria-label="Betting-implied probabilities">
       <div class="match-card__odds-top">
-        <span>Odds picture</span>
+        <span>Source-backed odds</span>
         <small>${oddsSnapshot.updated}</small>
       </div>
       <div class="match-card__probabilities">${outcomeItems}</div>
