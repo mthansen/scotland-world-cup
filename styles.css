@@ -415,18 +415,27 @@ h3 {
 }
 
 .match-card__time {
-  min-height: 48px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.35;
 }
 
-.match-card__score {
-  margin-top: auto;
+.match-card__fixture {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
   margin-bottom: 12px;
+}
+
+.match-card__score {
+  min-width: 74px;
+  margin: 0;
+  text-align: right;
   font-size: 1.72rem;
   font-weight: 950;
+  line-height: 1;
 }
 
 .match-card__score small {
