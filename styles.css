@@ -22,10 +22,15 @@
   --meter-waiting: rgba(255, 255, 255, 0.2);
   --meter-gap: rgba(5, 20, 32, 0.96);
   --meter-pie: conic-gradient(
-    var(--meter-waiting) 0deg 90deg,
-    var(--meter-waiting) 90deg 180deg,
-    var(--meter-waiting) 180deg 270deg,
-    var(--meter-waiting) 270deg 360deg
+    var(--meter-gap) 0deg 1.2deg,
+    var(--meter-waiting) 1.2deg 88.8deg,
+    var(--meter-gap) 88.8deg 91.2deg,
+    var(--meter-waiting) 91.2deg 178.8deg,
+    var(--meter-gap) 178.8deg 181.2deg,
+    var(--meter-waiting) 181.2deg 268.8deg,
+    var(--meter-gap) 268.8deg 271.2deg,
+    var(--meter-waiting) 271.2deg 358.8deg,
+    var(--meter-gap) 358.8deg 360deg
   );
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -184,18 +189,19 @@ h3 {
 
 .meter {
   --meter-ring: conic-gradient(
-    var(--meter-waiting) 0deg 58deg,
-    var(--meter-gap) 58deg 60deg,
-    var(--meter-waiting) 60deg 118deg,
-    var(--meter-gap) 118deg 120deg,
-    var(--meter-waiting) 120deg 178deg,
-    var(--meter-gap) 178deg 180deg,
-    var(--meter-waiting) 180deg 238deg,
-    var(--meter-gap) 238deg 240deg,
-    var(--meter-waiting) 240deg 298deg,
-    var(--meter-gap) 298deg 300deg,
-    var(--meter-waiting) 300deg 358deg,
-    var(--meter-gap) 358deg 360deg
+    var(--meter-gap) 0deg 1.2deg,
+    var(--meter-waiting) 1.2deg 58.8deg,
+    var(--meter-gap) 58.8deg 61.2deg,
+    var(--meter-waiting) 61.2deg 118.8deg,
+    var(--meter-gap) 118.8deg 121.2deg,
+    var(--meter-waiting) 121.2deg 178.8deg,
+    var(--meter-gap) 178.8deg 181.2deg,
+    var(--meter-waiting) 181.2deg 238.8deg,
+    var(--meter-gap) 238.8deg 241.2deg,
+    var(--meter-waiting) 241.2deg 298.8deg,
+    var(--meter-gap) 298.8deg 301.2deg,
+    var(--meter-waiting) 301.2deg 358.8deg,
+    var(--meter-gap) 358.8deg 360deg
   );
   position: relative;
   display: grid;
@@ -235,24 +241,11 @@ h3 {
   position: relative;
   width: calc(100% - 38px);
   aspect-ratio: 1;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 0;
   border-radius: 50%;
   background: var(--meter-pie);
-  box-shadow:
-    inset 0 0 0 5px rgba(5, 20, 32, 0.5),
-    0 10px 24px rgba(0, 0, 0, 0.22);
+  box-shadow: none;
   z-index: 2;
-}
-
-.meter__pie::after {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background:
-    linear-gradient(90deg, transparent calc(50% - 1px), rgba(5, 20, 32, 0.82) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
-    linear-gradient(0deg, transparent calc(50% - 1px), rgba(5, 20, 32, 0.82) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px));
-  content: "";
-  pointer-events: none;
 }
 
 .qualification-line {
