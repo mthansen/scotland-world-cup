@@ -8,7 +8,7 @@
     <meta http-equiv="Expires" content="0">
     <title>Scotland's Knockout Watch</title>
     <meta name="description" content="A live checklist of the results Scotland need to reach the World Cup knockout phase.">
-    <link rel="stylesheet" href="styles.css?v=20260626-232339-BST">
+    <link rel="stylesheet" href="styles.css?v=20260626-232555-BST">
   </head>
   <body>
     <header class="hero">
@@ -71,10 +71,10 @@
 
     <footer>
       <p>Kickoff times are shown in Scotland time. Live scores depend on public browser-accessible feeds. Odds are shown only when a public match-result price set was found before kickoff.</p>
-      <p>Odds provenance: Codex checked public web results on 26 June 2026 at about 22:00 BST. The displayed odds are limited to browser-accessible betting-preview prices found for Egypt v Iran and Uruguay v Spain: Egypt 7/5, Draw 9/5, Iran 13/5; Uruguay 6/1, Draw 3/1, Spain 4/9. Codex searched by fixture names plus odds, betting tips, predictions, and World Cup terms, inspected available result pages, and then entered only those exact 1X2 prices into app.js. No bookmaker login, live odds scrape, backend proxy, or betting API feed was added.</p>
+      <p>Odds provenance: Codex checked public web results on 26 June 2026 at about 22:00 BST for Egypt v Iran and Uruguay v Spain, then added Colombia v Portugal at about 23:18 BST from ESPN's public scoreboard data, which exposed DraftKings moneyline prices. The displayed 1X2 prices are Egypt 7/5, Draw 9/5, Iran 13/5; Uruguay 6/1, Draw 3/1, Spain 4/9; Colombia +300, Draw +280, Portugal -110. Codex searched by fixture names plus odds, betting tips, predictions, and World Cup terms, inspected available result pages, and used ESPN's public match JSON for the Colombia v Portugal DraftKings line. No bookmaker login, backend proxy, or private betting API feed was added.</p>
       <p>For displayed matches, app.js converts fractional odds into decimal odds, sums the inverse decimal probabilities to estimate the bookmaker overround, normalises each outcome back to a 100% book, and displays those implied probabilities in the match control room.</p>
     </footer>
 
-    <script src="app.js?v=20260626-232339-BST"></script>
+    <script src="app.js?v=20260626-232555-BST"></script>
   </body>
 </html>
