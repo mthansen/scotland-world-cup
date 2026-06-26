@@ -101,8 +101,7 @@ button {
 }
 
 .hero__flag-row--bottom {
-  top: min(78vh, 690px);
-  transform: translateX(-50%) translateY(-100%);
+  top: clamp(88px, 11vw, 132px);
 }
 
 .hero__flag-row span {
@@ -462,7 +461,7 @@ footer p {
   }
 
   .hero__flag-row--bottom {
-    top: min(58vh, 500px);
+    top: 68px;
   }
 
   .hero__content {
