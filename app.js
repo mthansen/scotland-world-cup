@@ -125,7 +125,7 @@ const conditions = [
 ];
 
 const oddsSnapshot = {
-  updated: "26 Jun",
+  updated: "26 Jun, 23:18 BST",
   source: "Public web lookup",
   matches: {
     "egy-iran": {
@@ -145,6 +145,15 @@ const oddsSnapshot = {
         { key: "away", label: "Spain", odds: "4/9" },
       ],
       scotlandKey: "away",
+    },
+    "col-portugal": {
+      note: "Public DraftKings moneyline from ESPN scoreboard.",
+      outcomes: [
+        { key: "home", label: "Colombia", odds: "+300" },
+        { key: "draw", label: "Draw", odds: "+280" },
+        { key: "away", label: "Portugal", odds: "-110" },
+      ],
+      scotlandKey: "draw",
     },
   },
 };
