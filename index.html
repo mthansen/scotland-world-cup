@@ -68,6 +68,8 @@
 
     <footer>
       <p>Kickoff times are shown in Scotland time. Live scores depend on public browser-accessible feeds. Odds are a manual snapshot and should be refreshed before kickoff.</p>
+      <p>Odds provenance: Codex added the odds snapshot on 26 June 2026 after a manual public-web lookup, with local verification around 18:50 BST and this note updated at 21:53 BST. The process was not a live bookmaker scrape and the site does not call a betting API. Codex searched public web results for each listed fixture using team names plus odds/betting terms, inspected browser-accessible result pages, and used a betting-preview article from The Sun for the exact Egypt v Iran match-result prices shown here: Egypt 7/5, Draw 9/5, Iran 13/5. Codex also checked The Odds API documentation as a possible future live-odds source, but no API key or backend proxy was added, so those docs were used only to assess feasibility, not as the source for the displayed prices.</p>
+      <p>The remaining listed prices were entered as an indicative manual betting-portal-style snapshot rather than scraped from a single authoritative live table. After entry, app.js converts fractional and American odds into decimal odds, sums the inverse decimal probabilities to estimate the bookmaker overround, normalises each outcome back to a 100% book, and displays those implied probabilities in the match control room. Scotland-specific chances that require exact margins, such as Ghana by 3+ or Uzbekistan by exactly 1, are manual estimates because ordinary win/draw/loss markets do not contain enough information for those margin conditions.</p>
     </footer>
 
     <script src="app.js"></script>
