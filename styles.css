@@ -424,20 +424,24 @@ h3 {
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.35;
+  text-align: center;
 }
 
 .match-card__fixture {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
   margin-bottom: 12px;
+  text-align: center;
 }
 
 .match-card__score {
-  min-width: 74px;
+  width: 100%;
+  min-width: 0;
   margin: 0;
-  text-align: right;
+  text-align: center;
   font-size: 1.72rem;
   font-weight: 950;
   line-height: 1;
