@@ -21,7 +21,7 @@
   --meter-failed: #ff5f57;
   --meter-waiting: rgba(255, 255, 255, 0.2);
   --meter-gap: rgba(5, 20, 32, 0.96);
-  --meter-gap-width: 10px;
+  --meter-gap-width: 6px;
   --meter-pie: conic-gradient(
     var(--meter-waiting) 0deg 90deg,
     var(--meter-waiting) 90deg 180deg,
@@ -232,7 +232,7 @@ h3 {
 
 .meter__pie {
   position: relative;
-  width: calc(100% - 38px);
+  width: calc(100% - 44px);
   aspect-ratio: 1;
   border: 0;
   border-radius: 50%;
