@@ -311,9 +311,10 @@ function renderShell() {
           <h3 class="match-card__teams">${match.home} <span>v</span> ${match.away}</h3>
           <div class="match-card__fixture">
             <p class="match-card__time">${formatKickoff(match.kickoff)}<br><strong>${matchClockLabel(match)}</strong></p>
-            <p class="match-card__score">---<small>${match.desired}</small></p>
+            <p class="match-card__score">---</p>
           </div>
           ${oddsMarkup(match)}
+          <p class="match-card__desired">${match.desired}</p>
           <p class="match-card__status">WAITING</p>
         </article>
       `,
@@ -420,7 +421,7 @@ function updateMatchCards() {
       match,
       score,
     )}</strong>`;
-    card.querySelector(".match-card__score").innerHTML = `${scoreLabel(match, score)}<small>${match.desired}</small>`;
+    card.querySelector(".match-card__score").textContent = scoreLabel(match, score);
     card.querySelector(".match-card__status").textContent = !started || !score
       ? "WAITING"
       : helping
