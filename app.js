@@ -419,9 +419,7 @@ function updateMatchCards() {
         ? "Score pending"
         : helping
           ? "Helps Scotland"
-          : score.state === "post"
-            ? "Not enough"
-            : "Currently not enough";
+          : "Failed";
   }
 }
 
@@ -446,7 +444,7 @@ function evaluateCondition(condition) {
   return {
     state: helps ? "good" : "bad",
     live: stillLive,
-    pill: stillLive ? (helps ? "Ongoing" : "Currently not enough") : helps ? "Landing" : "Missing",
+    pill: stillLive ? (helps ? "Ongoing" : "Failed") : helps ? "Landing" : "Failed",
     line: scoreBits.join(" / "),
   };
 }
@@ -478,17 +476,12 @@ function buildMeterRing(results) {
 
 function buildLandingPie(landing) {
   const landed = Math.min(Math.max(landing, 0), 4);
-  const gapColour = "var(--meter-gap)";
-  const gapSize = 4;
   const stops = Array.from({ length: 4 }, (_, index) => {
     const start = index * 90;
     const end = start + 90;
     const colour = index < landed ? "var(--meter-landing)" : "var(--meter-waiting)";
-    return [
-      `${colour} ${start}deg ${end - gapSize}deg`,
-      `${gapColour} ${end - gapSize}deg ${end}deg`,
-    ];
-  }).flat();
+    return `${colour} ${start}deg ${end}deg`;
+  });
 
   return `conic-gradient(${stops.join(", ")})`;
 }
