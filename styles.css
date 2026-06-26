@@ -447,12 +447,14 @@ h3 {
   line-height: 1;
 }
 
-.match-card__score small {
-  display: block;
-  margin-top: 3px;
+.match-card__desired {
+  margin-top: auto;
+  margin-bottom: 8px;
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
 }
 
 .match-card__odds {
