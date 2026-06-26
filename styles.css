@@ -169,10 +169,24 @@ h3 {
 
 .intro {
   max-width: 610px;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
   color: var(--muted);
   font-size: clamp(1rem, 1.55vw, 1.16rem);
   line-height: 1.48;
+}
+
+.intro-update {
+  max-width: 610px;
+  margin-bottom: 24px;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 750;
+  line-height: 1.42;
+}
+
+.intro-update strong {
+  color: var(--gold);
+  font-weight: 950;
 }
 
 .hero__meter {
