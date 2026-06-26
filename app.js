@@ -314,7 +314,7 @@ function renderShell() {
             <p class="match-card__score">---<small>${match.desired}</small></p>
           </div>
           ${oddsMarkup(match)}
-          <p class="match-card__status">Waiting</p>
+          <p class="match-card__status">WAITING</p>
         </article>
       `,
     )
@@ -421,13 +421,11 @@ function updateMatchCards() {
       score,
     )}</strong>`;
     card.querySelector(".match-card__score").innerHTML = `${scoreLabel(match, score)}<small>${match.desired}</small>`;
-    card.querySelector(".match-card__status").textContent = !started
-      ? `Starts in ${formatCountdown(match.kickoff)}`
-      : !score
-        ? "Score pending"
-        : helping
-          ? "Helps Scotland"
-          : "Failed";
+    card.querySelector(".match-card__status").textContent = !started || !score
+      ? "WAITING"
+      : helping
+        ? "Helps Scotland"
+        : "Failed";
   }
 }
 
