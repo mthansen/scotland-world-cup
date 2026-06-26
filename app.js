@@ -125,11 +125,11 @@ const conditions = [
 ];
 
 const oddsSnapshot = {
-  updated: "26 Jun, source-backed",
+  updated: "26 Jun",
   source: "Public web lookup",
   matches: {
     "egy-iran": {
-      note: "Source-backed match result prices from a public betting preview.",
+      note: "Public match result prices from a betting preview.",
       outcomes: [
         { key: "home", label: "Egypt", odds: "7/5" },
         { key: "draw", label: "Draw", odds: "9/5" },
@@ -138,7 +138,7 @@ const oddsSnapshot = {
       scotlandKey: "home",
     },
     "uru-spain": {
-      note: "Source-backed match result prices from a public betting preview.",
+      note: "Public match result prices from a betting preview.",
       outcomes: [
         { key: "home", label: "Uruguay", odds: "6/1" },
         { key: "draw", label: "Draw", odds: "3/1" },
@@ -268,7 +268,7 @@ function oddsMarkup(match) {
   return `
     <div class="match-card__odds" aria-label="Betting-implied probabilities">
       <div class="match-card__odds-top">
-        <span>Source-backed odds</span>
+        <span>Odds</span>
         <small>${oddsSnapshot.updated}</small>
       </div>
       <div class="match-card__probabilities">${outcomeItems}</div>
@@ -458,20 +458,12 @@ function meterColour(result) {
 }
 
 function buildMeterRing(results) {
-  const gapColour = "var(--meter-gap)";
   const segmentSize = 60;
-  const gapSize = 2.4;
-  const halfGap = gapSize / 2;
   const stops = results.flatMap((result, index) => {
     const segmentStart = index * segmentSize;
-    const start = segmentStart + halfGap;
-    const end = segmentStart + segmentSize - halfGap;
+    const end = segmentStart + segmentSize;
     const colour = meterColour(result);
-    return [
-      `${gapColour} ${segmentStart}deg ${start}deg`,
-      `${colour} ${start}deg ${end}deg`,
-      `${gapColour} ${end}deg ${segmentStart + segmentSize}deg`,
-    ];
+    return `${colour} ${segmentStart}deg ${end}deg`;
   });
 
   return `conic-gradient(${stops.join(", ")})`;
@@ -479,21 +471,13 @@ function buildMeterRing(results) {
 
 function buildLandingPie(landing) {
   const landed = Math.min(Math.max(landing, 0), 4);
-  const gapColour = "var(--meter-gap)";
   const segmentSize = 90;
-  const gapSize = 2.4;
-  const halfGap = gapSize / 2;
   const stops = Array.from({ length: 4 }, (_, index) => {
     const segmentStart = index * segmentSize;
-    const start = segmentStart + halfGap;
-    const end = segmentStart + segmentSize - halfGap;
+    const end = segmentStart + segmentSize;
     const colour = index < landed ? "var(--meter-landing)" : "var(--meter-waiting)";
-    return [
-      `${gapColour} ${segmentStart}deg ${start}deg`,
-      `${colour} ${start}deg ${end}deg`,
-      `${gapColour} ${end}deg ${segmentStart + segmentSize}deg`,
-    ];
-  }).flat();
+    return `${colour} ${segmentStart}deg ${end}deg`;
+  });
 
   return `conic-gradient(${stops.join(", ")})`;
 }
