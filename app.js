@@ -174,7 +174,6 @@ function formatKickoff(iso) {
     hour: "2-digit",
     minute: "2-digit",
     timeZone: "Europe/Isle_of_Man",
-    timeZoneName: "short",
   }).format(new Date(iso));
 }
 
@@ -190,6 +189,12 @@ function formatCountdown(iso) {
 
 function hasStarted(match) {
   return Date.now() >= new Date(match.kickoff).getTime();
+}
+
+function matchClockLabel(match, score) {
+  if (!hasStarted(match)) return `Starts in ${formatCountdown(match.kickoff)}`;
+  if (!score?.detail || score.detail.toLowerCase() === "scheduled") return "Score pending";
+  return score.detail;
 }
 
 function oddsToDecimal(odds) {
@@ -304,8 +309,10 @@ function renderShell() {
           <div class="match-card__flags"><span>${match.flags[0]}</span><span>${match.flags[1]}</span></div>
           <p class="match-card__group">${match.group}</p>
           <h3 class="match-card__teams">${match.home} <span>v</span> ${match.away}</h3>
-          <p class="match-card__time">${formatKickoff(match.kickoff)}<br><strong>${formatCountdown(match.kickoff)}</strong></p>
-          <p class="match-card__score">--<small>${match.desired}</small></p>
+          <div class="match-card__fixture">
+            <p class="match-card__time">${formatKickoff(match.kickoff)}<br><strong>${matchClockLabel(match)}</strong></p>
+            <p class="match-card__score">---<small>${match.desired}</small></p>
+          </div>
           ${oddsMarkup(match)}
           <p class="match-card__status">Waiting</p>
         </article>
@@ -395,7 +402,7 @@ async function fetchScores() {
 }
 
 function scoreLabel(match, score) {
-  if (!score) return "--";
+  if (!hasStarted(match) || !score) return "---";
   return `${score.home} - ${score.away}`;
 }
 
@@ -409,12 +416,13 @@ function updateMatchCards() {
     card.classList.remove("is-good", "is-bad", "is-waiting");
     card.classList.add(!started || !score ? "is-waiting" : helping ? "is-good" : "is-bad");
 
-    card.querySelector(".match-card__time").innerHTML = `${formatKickoff(match.kickoff)}<br><strong>${
-      score?.detail || formatCountdown(match.kickoff)
-    }</strong>`;
+    card.querySelector(".match-card__time").innerHTML = `${formatKickoff(match.kickoff)}<br><strong>${matchClockLabel(
+      match,
+      score,
+    )}</strong>`;
     card.querySelector(".match-card__score").innerHTML = `${scoreLabel(match, score)}<small>${match.desired}</small>`;
     card.querySelector(".match-card__status").textContent = !started
-      ? "Not started"
+      ? `Starts in ${formatCountdown(match.kickoff)}`
       : !score
         ? "Score pending"
         : helping
