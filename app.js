@@ -148,7 +148,7 @@ function formatKickoff(iso) {
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: "Europe/London",
+    timeZone: "Europe/Isle_of_Man",
     timeZoneName: "short",
   }).format(new Date(iso));
 }
@@ -358,7 +358,7 @@ function updateTimestamp(matched = 0) {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
-    timeZone: "Europe/London",
+    timeZone: "Europe/Isle_of_Man",
     timeZoneName: "short",
   }).format(new Date());
   const suffix = matched > 0 ? `${matched} match feed${matched === 1 ? "" : "s"} matched.` : "No matching live feed data yet.";
