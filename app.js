@@ -152,8 +152,10 @@ const oddsSnapshot = {
 const scoreState = new Map();
 const conditionGrid = document.querySelector("#conditions-grid");
 const matchesGrid = document.querySelector("#matches-grid");
+const meter = document.querySelector(".meter");
 const metCount = document.querySelector("#met-count");
 const meterSummary = document.querySelector("#meter-summary");
+const meterDetail = document.querySelector("#meter-detail");
 const qualificationLine = document.querySelector("#qualification-line");
 const lastUpdated = document.querySelector("#last-updated");
 const refreshButton = document.querySelector("#refresh-scores");
@@ -452,14 +454,43 @@ function evaluateCondition(condition) {
   };
 }
 
+function meterColour(result) {
+  if (result.live && result.state === "good") return "var(--meter-ongoing-good)";
+  if (result.live && result.state === "bad") return "var(--meter-ongoing-bad)";
+  if (result.state === "good") return "var(--meter-landing)";
+  if (result.state === "bad") return "var(--meter-failed)";
+  return "var(--meter-waiting)";
+}
+
+function buildMeterRing(results) {
+  const gapColour = "var(--meter-gap)";
+  const segmentSize = 60;
+  const gapSize = 2.4;
+  const stops = results.flatMap((result, index) => {
+    const start = index * segmentSize;
+    const end = start + segmentSize;
+    const colour = meterColour(result);
+    return [
+      `${colour} ${start}deg ${end - gapSize}deg`,
+      `${gapColour} ${end - gapSize}deg ${end}deg`,
+    ];
+  });
+
+  return `conic-gradient(${stops.join(", ")})`;
+}
+
 function updateConditionCards() {
   let landing = 0;
   let ongoing = 0;
   let failed = 0;
+  let currentlyGood = 0;
+  const results = [];
 
   for (const condition of conditions) {
     const result = evaluateCondition(condition);
-    if (result.state === "good") landing += 1;
+    results.push(result);
+    if (result.state === "good") currentlyGood += 1;
+    if (result.state === "good" && !result.live) landing += 1;
     if (result.live) ongoing += 1;
     if (result.state === "bad" && !result.live) failed += 1;
 
@@ -471,10 +502,15 @@ function updateConditionCards() {
   }
 
   metCount.textContent = landing;
-  meterSummary.textContent = `of 6 Landing (${ongoing} ongoing/${failed} failed)`;
+  meterDetail.textContent = `(${ongoing} ongoing/${failed} failed)`;
+  meter.style.setProperty("--meter-ring", buildMeterRing(results));
+  meterSummary.setAttribute(
+    "aria-label",
+    `${landing} of 6 landing, ${ongoing} ongoing, ${failed} failed`,
+  );
   qualificationLine.textContent =
-    landing >= 4
-      ? "Current scores would put Scotland through."
+    currentlyGood >= 4
+      ? "Current live picture would put Scotland through."
       : `Live picture: ${landing} landing, ${ongoing} ongoing, ${failed} failed.`;
 }
 
