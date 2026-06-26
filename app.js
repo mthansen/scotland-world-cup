@@ -153,9 +153,6 @@ const scoreState = new Map();
 const conditionGrid = document.querySelector("#conditions-grid");
 const matchesGrid = document.querySelector("#matches-grid");
 const meter = document.querySelector(".meter");
-const metCount = document.querySelector("#met-count");
-const meterSummary = document.querySelector("#meter-summary");
-const meterDetail = document.querySelector("#meter-detail");
 const qualificationLine = document.querySelector("#qualification-line");
 const lastUpdated = document.querySelector("#last-updated");
 const refreshButton = document.querySelector("#refresh-scores");
@@ -479,6 +476,23 @@ function buildMeterRing(results) {
   return `conic-gradient(${stops.join(", ")})`;
 }
 
+function buildLandingPie(landing) {
+  const landed = Math.min(Math.max(landing, 0), 4);
+  const gapColour = "var(--meter-gap)";
+  const gapSize = 4;
+  const stops = Array.from({ length: 4 }, (_, index) => {
+    const start = index * 90;
+    const end = start + 90;
+    const colour = index < landed ? "var(--meter-landing)" : "var(--meter-waiting)";
+    return [
+      `${colour} ${start}deg ${end - gapSize}deg`,
+      `${gapColour} ${end - gapSize}deg ${end}deg`,
+    ];
+  }).flat();
+
+  return `conic-gradient(${stops.join(", ")})`;
+}
+
 function updateConditionCards() {
   let landing = 0;
   let ongoing = 0;
@@ -501,12 +515,11 @@ function updateConditionCards() {
     card.querySelector(".condition-card__scoreline").textContent = result.line;
   }
 
-  metCount.textContent = landing;
-  meterDetail.textContent = `(${ongoing} ongoing/${failed} failed)`;
   meter.style.setProperty("--meter-ring", buildMeterRing(results));
-  meterSummary.setAttribute(
+  meter.style.setProperty("--meter-pie", buildLandingPie(landing));
+  meter.setAttribute(
     "aria-label",
-    `${landing} of 6 landing, ${ongoing} ongoing, ${failed} failed`,
+    `${landing} of 4 required results landed. ${ongoing} ongoing, ${failed} failed.`,
   );
   qualificationLine.textContent =
     currentlyGood >= 4
