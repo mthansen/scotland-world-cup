@@ -15,6 +15,12 @@
   --good: #56d68f;
   --bad: #ff7c71;
   --unknown: #d7c27d;
+  --meter-ongoing-bad: #f3a43b;
+  --meter-ongoing-good: #35d6ce;
+  --meter-landing: #56d68f;
+  --meter-failed: #ff5f57;
+  --meter-waiting: rgba(255, 255, 255, 0.2);
+  --meter-gap: rgba(5, 20, 32, 0.96);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -171,30 +177,68 @@ h3 {
 }
 
 .meter {
+  --meter-ring: conic-gradient(
+    var(--meter-waiting) 0deg 58deg,
+    var(--meter-gap) 58deg 60deg,
+    var(--meter-waiting) 60deg 118deg,
+    var(--meter-gap) 118deg 120deg,
+    var(--meter-waiting) 120deg 178deg,
+    var(--meter-gap) 178deg 180deg,
+    var(--meter-waiting) 180deg 238deg,
+    var(--meter-gap) 238deg 240deg,
+    var(--meter-waiting) 240deg 298deg,
+    var(--meter-gap) 298deg 300deg,
+    var(--meter-waiting) 300deg 358deg,
+    var(--meter-gap) 358deg 360deg
+  );
+  position: relative;
   display: grid;
   place-items: center;
-  flex: 0 0 128px;
+  flex: 0 0 154px;
   aspect-ratio: 1;
-  border: 8px solid rgba(255, 255, 255, 0.14);
-  border-top-color: var(--gold);
-  border-right-color: var(--saltire);
   border-radius: 50%;
+  background: var(--meter-ring);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 14px 34px rgba(0, 0, 0, 0.2);
+  isolation: isolate;
+}
+
+.meter::before {
+  position: absolute;
+  inset: 15px;
+  z-index: 0;
+  border-radius: 50%;
+  background: rgba(5, 20, 32, 0.88);
+  content: "";
 }
 
 .meter span {
+  position: relative;
   font-size: 2.5rem;
   font-weight: 900;
   line-height: 1;
+  z-index: 1;
 }
 
 .meter small {
-  width: 92px;
+  position: relative;
+  display: grid;
+  gap: 3px;
+  width: 102px;
   color: var(--muted);
   font-size: 0.62rem;
   font-weight: 700;
   line-height: 1.18;
   text-align: center;
   text-transform: uppercase;
+  z-index: 1;
+}
+
+.meter small span {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
 }
 
 .qualification-line {
@@ -612,8 +656,8 @@ footer p + p {
   }
 
   .meter {
-    width: 104px;
-    flex-basis: 104px;
+    width: 132px;
+    flex-basis: 132px;
   }
 
   .conditions-grid,
