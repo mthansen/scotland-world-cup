@@ -422,10 +422,11 @@ function updateMatchCards() {
     const score = scoreState.get(match.id);
     const started = hasStarted(match);
     const helping = score ? match.helps(score) : false;
+    const ongoingGood = started && score && helping && score.state !== "post";
     const ongoingBad = started && score && !helping && score.state !== "post";
 
-    card.classList.remove("is-good", "is-bad", "is-ongoing-bad", "is-waiting");
-    card.classList.add(!started || !score ? "is-waiting" : helping ? "is-good" : ongoingBad ? "is-ongoing-bad" : "is-bad");
+    card.classList.remove("is-good", "is-bad", "is-ongoing-good", "is-ongoing-bad", "is-waiting");
+    card.classList.add(!started || !score ? "is-waiting" : ongoingGood ? "is-ongoing-good" : helping ? "is-good" : ongoingBad ? "is-ongoing-bad" : "is-bad");
 
     card.querySelector(".match-card__time").innerHTML = `${formatKickoff(match.kickoff)}<br><strong>${matchClockLabel(
       match,
@@ -434,7 +435,9 @@ function updateMatchCards() {
     card.querySelector(".match-card__score").textContent = scoreLabel(match, score);
     card.querySelector(".match-card__status").textContent = !started || !score
       ? "WAITING"
-      : helping
+      : ongoingGood
+        ? "ONGOING"
+        : helping
         ? "SUCCESS"
         : ongoingBad
           ? "Currently not enough"
