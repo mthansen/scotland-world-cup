@@ -19,10 +19,13 @@
   --meter-ongoing-good: #35d6ce;
   --meter-landing: #56d68f;
   --meter-failed: #ff5f57;
-  --meter-waiting: rgba(255, 255, 255, 0.2);
+  --meter-waiting: #3d4d57;
   --meter-core-waiting: #3d4d57;
-  --meter-gap: rgba(5, 20, 32, 0.96);
+  --meter-gap: #051420;
   --meter-gap-width: 6px;
+  --meter-size: 154px;
+  --meter-outer-ring-width: 16px;
+  --meter-pie-inset: 22px;
   --meter-pie: conic-gradient(
     var(--meter-waiting) 0deg 90deg,
     var(--meter-waiting) 90deg 180deg,
@@ -220,11 +223,11 @@ h3 {
   position: relative;
   display: grid;
   place-items: center;
-  width: 154px;
-  height: 154px;
-  flex: 0 0 154px;
+  width: var(--meter-size);
+  height: var(--meter-size);
+  flex: 0 0 var(--meter-size);
   border-radius: 50%;
-  background: rgba(5, 20, 32, 0.88);
+  background: #051420;
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.12),
     0 14px 34px rgba(0, 0, 0, 0.2);
@@ -233,10 +236,10 @@ h3 {
 
 .meter::before {
   position: absolute;
-  inset: 16px;
+  inset: var(--meter-outer-ring-width);
   z-index: 0;
   border-radius: 50%;
-  background: rgba(5, 20, 32, 0.88);
+  background: #051420;
   content: "";
 }
 
@@ -251,15 +254,15 @@ h3 {
     linear-gradient(150deg, transparent calc(50% - var(--meter-gap-width) / 2), var(--meter-gap) calc(50% - var(--meter-gap-width) / 2) calc(50% + var(--meter-gap-width) / 2), transparent calc(50% + var(--meter-gap-width) / 2)),
     var(--meter-ring);
   content: "";
-  mask: radial-gradient(farthest-side, transparent calc(100% - 16px), #000 calc(100% - 15px));
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 16px), #000 calc(100% - 15px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - var(--meter-outer-ring-width)), #000 calc(100% - var(--meter-outer-ring-width) + 1px));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--meter-outer-ring-width)), #000 calc(100% - var(--meter-outer-ring-width) + 1px));
 }
 
 .meter__pie {
   position: relative;
   display: grid;
   place-items: center;
-  width: calc(100% - 44px);
+  width: calc(100% - (var(--meter-pie-inset) * 2));
   aspect-ratio: 1;
   border: 0;
   border-radius: 50%;
@@ -356,24 +359,28 @@ h3 {
 }
 
 .condition-card.is-good::before,
+.condition-card.is-good .status-pill,
 .match-card.is-good .match-card__status {
   background: var(--good);
   color: #052015;
 }
 
 .condition-card.is-bad::before,
+.condition-card.is-bad .status-pill,
 .match-card.is-bad .match-card__status {
   background: var(--bad);
   color: #300806;
 }
 
 .condition-card.is-ongoing-bad::before,
+.condition-card.is-ongoing-bad .status-pill,
 .match-card.is-ongoing-bad .match-card__status {
   background: var(--meter-ongoing-bad);
   color: #2d1802;
 }
 
 .condition-card.is-waiting::before,
+.condition-card.is-waiting .status-pill,
 .match-card.is-waiting .match-card__status {
   background: var(--unknown);
   color: #241a03;
@@ -727,9 +734,10 @@ footer p + p {
   }
 
   .meter {
-    width: 132px;
-    height: 132px;
-    flex-basis: 132px;
+    --meter-gap-width: 5px;
+    --meter-size: 132px;
+    --meter-outer-ring-width: 14px;
+    --meter-pie-inset: 19px;
   }
 
   .conditions-grid,
