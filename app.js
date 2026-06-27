@@ -180,7 +180,7 @@ function formatKickoff(iso) {
     weekday: "short",
     day: "numeric",
     month: "short",
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
     timeZone: "Europe/Isle_of_Man",
   }).format(new Date(iso));
@@ -434,7 +434,7 @@ function updateMatchCards() {
     card.querySelector(".match-card__status").textContent = !started || !score
       ? "WAITING"
       : helping
-        ? "Helps Scotland"
+        ? "Helps Scotland to Success"
         : "Failed";
   }
 }
