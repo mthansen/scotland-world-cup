@@ -177,11 +177,15 @@ h3 {
 
 .intro-update {
   max-width: 610px;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   color: var(--ink);
   font-size: 0.88rem;
   font-weight: 750;
   line-height: 1.42;
+}
+
+.intro-update:last-of-type {
+  margin-bottom: 24px;
 }
 
 .intro-update strong {

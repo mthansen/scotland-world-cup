@@ -460,7 +460,7 @@ function evaluateCondition(condition) {
   return {
     state: helps ? "good" : "bad",
     live: stillLive,
-    pill: stillLive ? (helps ? "Ongoing" : "Failed") : helps ? "Landing" : "Failed",
+    pill: stillLive ? (helps ? "Ongoing" : "Failed") : helps ? "Success" : "Failed",
     line: scoreBits.join(" / "),
   };
 }
@@ -485,13 +485,13 @@ function buildMeterRing(results) {
   return `conic-gradient(${stops.join(", ")})`;
 }
 
-function buildLandingPie(landing) {
-  const landed = Math.min(Math.max(landing, 0), 4);
+function buildSuccessPie(success) {
+  const successful = Math.min(Math.max(success, 0), 4);
   const segmentSize = 90;
   const stops = Array.from({ length: 4 }, (_, index) => {
     const segmentStart = index * segmentSize;
     const end = segmentStart + segmentSize;
-    const colour = index < landed ? "var(--meter-landing)" : "var(--meter-waiting)";
+    const colour = index < successful ? "var(--meter-landing)" : "var(--meter-waiting)";
     return `${colour} ${segmentStart}deg ${end}deg`;
   });
 
@@ -499,7 +499,7 @@ function buildLandingPie(landing) {
 }
 
 function updateConditionCards() {
-  let landing = 0;
+  let success = 0;
   let ongoing = 0;
   let failed = 0;
   let currentlyGood = 0;
@@ -509,7 +509,7 @@ function updateConditionCards() {
     const result = evaluateCondition(condition);
     results.push(result);
     if (result.state === "good") currentlyGood += 1;
-    if (result.state === "good" && !result.live) landing += 1;
+    if (result.state === "good" && !result.live) success += 1;
     if (result.live) ongoing += 1;
     if (result.state === "bad" && !result.live) failed += 1;
 
@@ -521,15 +521,15 @@ function updateConditionCards() {
   }
 
   meter.style.setProperty("--meter-ring", buildMeterRing(results));
-  meter.style.setProperty("--meter-pie", buildLandingPie(landing));
+  meter.style.setProperty("--meter-pie", buildSuccessPie(success));
   meter.setAttribute(
     "aria-label",
-    `${landing} of 4 required results landed. ${ongoing} ongoing, ${failed} failed.`,
+    `${success} of 4 required results successful. ${ongoing} ongoing, ${failed} failed.`,
   );
   qualificationLine.textContent =
     currentlyGood >= 4
       ? "Current live picture would put Scotland through."
-      : `Live picture: ${landing} landing, ${ongoing} ongoing, ${failed} failed.`;
+      : `Live picture: ${success} success, ${ongoing} ongoing, ${failed} failed.`;
 }
 
 function updateTimestamp(matched = 0) {
