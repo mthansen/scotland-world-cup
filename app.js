@@ -533,8 +533,14 @@ function updateConditionCards() {
     if (result.state === "bad" && !result.live) failed += 1;
 
     const card = document.querySelector(`[data-condition="${condition.id}"]`);
-    card.classList.remove("is-good", "is-bad", "is-ongoing-bad", "is-waiting");
-    card.classList.add(result.live && result.state === "bad" ? "is-ongoing-bad" : `is-${result.state}`);
+    card.classList.remove("is-good", "is-bad", "is-ongoing-good", "is-ongoing-bad", "is-waiting");
+    card.classList.add(
+      result.live && result.state === "good"
+        ? "is-ongoing-good"
+        : result.live && result.state === "bad"
+          ? "is-ongoing-bad"
+          : `is-${result.state}`,
+    );
     card.querySelector(".status-pill").textContent = result.pill;
     card.querySelector(".condition-card__scoreline").textContent = result.line;
   }
