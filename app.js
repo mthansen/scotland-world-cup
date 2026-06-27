@@ -434,7 +434,7 @@ function updateMatchCards() {
     card.querySelector(".match-card__status").textContent = !started || !score
       ? "WAITING"
       : helping
-        ? "Helps Scotland to Success"
+        ? "SUCCESS"
         : "Failed";
   }
 }
