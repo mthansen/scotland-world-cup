@@ -508,7 +508,7 @@ function buildQualificationRing(success, failed) {
 function qualificationCoreColour(success, failed) {
   if (success >= 4) return "var(--meter-landing)";
   if (failed >= 3) return "var(--meter-failed)";
-  return "var(--meter-waiting)";
+  return "var(--meter-core-waiting)";
 }
 
 function updateConditionCards() {
