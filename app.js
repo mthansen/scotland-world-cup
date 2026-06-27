@@ -422,9 +422,10 @@ function updateMatchCards() {
     const score = scoreState.get(match.id);
     const started = hasStarted(match);
     const helping = score ? match.helps(score) : false;
+    const ongoingBad = started && score && !helping && score.state !== "post";
 
-    card.classList.remove("is-good", "is-bad", "is-waiting");
-    card.classList.add(!started || !score ? "is-waiting" : helping ? "is-good" : "is-bad");
+    card.classList.remove("is-good", "is-bad", "is-ongoing-bad", "is-waiting");
+    card.classList.add(!started || !score ? "is-waiting" : helping ? "is-good" : ongoingBad ? "is-ongoing-bad" : "is-bad");
 
     card.querySelector(".match-card__time").innerHTML = `${formatKickoff(match.kickoff)}<br><strong>${matchClockLabel(
       match,
@@ -435,7 +436,9 @@ function updateMatchCards() {
       ? "WAITING"
       : helping
         ? "SUCCESS"
-        : "Failed";
+        : ongoingBad
+          ? "Currently not enough"
+          : "Failed";
   }
 }
 
@@ -460,7 +463,7 @@ function evaluateCondition(condition) {
   return {
     state: helps ? "good" : "bad",
     live: stillLive,
-    pill: stillLive ? (helps ? "Ongoing" : "Failed") : helps ? "Success" : "Failed",
+    pill: stillLive ? (helps ? "Ongoing" : "Currently not enough") : helps ? "Success" : "Failed",
     line: scoreBits.join(" / "),
   };
 }
@@ -527,8 +530,8 @@ function updateConditionCards() {
     if (result.state === "bad" && !result.live) failed += 1;
 
     const card = document.querySelector(`[data-condition="${condition.id}"]`);
-    card.classList.remove("is-good", "is-bad", "is-waiting");
-    card.classList.add(`is-${result.state}`);
+    card.classList.remove("is-good", "is-bad", "is-ongoing-bad", "is-waiting");
+    card.classList.add(result.live && result.state === "bad" ? "is-ongoing-bad" : `is-${result.state}`);
     card.querySelector(".status-pill").textContent = result.pill;
     card.querySelector(".condition-card__scoreline").textContent = result.line;
   }
