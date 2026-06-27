@@ -485,17 +485,30 @@ function buildMeterRing(results) {
   return `conic-gradient(${stops.join(", ")})`;
 }
 
-function buildSuccessPie(success) {
+function buildQualificationRing(success, failed) {
   const successful = Math.min(Math.max(success, 0), 4);
+  const danger = Math.min(Math.max(failed - 2, 0), 4 - successful);
   const segmentSize = 90;
   const stops = Array.from({ length: 4 }, (_, index) => {
     const segmentStart = index * segmentSize;
     const end = segmentStart + segmentSize;
-    const colour = index < successful ? "var(--meter-landing)" : "var(--meter-waiting)";
+    const dangerStart = 4 - danger;
+    const colour =
+      index < successful
+        ? "var(--meter-landing)"
+        : index >= dangerStart
+          ? "var(--meter-failed)"
+          : "var(--meter-waiting)";
     return `${colour} ${segmentStart}deg ${end}deg`;
   });
 
   return `conic-gradient(${stops.join(", ")})`;
+}
+
+function qualificationCoreColour(success, failed) {
+  if (success >= 4) return "var(--meter-landing)";
+  if (failed >= 3) return "var(--meter-failed)";
+  return "var(--meter-waiting)";
 }
 
 function updateConditionCards() {
@@ -521,7 +534,8 @@ function updateConditionCards() {
   }
 
   meter.style.setProperty("--meter-ring", buildMeterRing(results));
-  meter.style.setProperty("--meter-pie", buildSuccessPie(success));
+  meter.style.setProperty("--meter-pie", buildQualificationRing(success, failed));
+  meter.style.setProperty("--meter-core", qualificationCoreColour(success, failed));
   meter.setAttribute(
     "aria-label",
     `${success} of 4 required results successful. ${ongoing} ongoing, ${failed} failed.`,
