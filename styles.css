@@ -372,6 +372,11 @@ h3 {
   color: #052015;
 }
 
+.match-card.is-ongoing-good .match-card__status {
+  background: var(--meter-ongoing-good);
+  color: #052015;
+}
+
 .condition-card.is-bad::before,
 .condition-card.is-bad .status-pill,
 .match-card.is-bad .match-card__status {
