@@ -367,6 +367,12 @@ h3 {
   color: #300806;
 }
 
+.condition-card.is-ongoing-bad::before,
+.match-card.is-ongoing-bad .match-card__status {
+  background: var(--meter-ongoing-bad);
+  color: #2d1802;
+}
+
 .condition-card.is-waiting::before,
 .match-card.is-waiting .match-card__status {
   background: var(--unknown);
