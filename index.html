@@ -9,7 +9,7 @@
     <meta http-equiv="Expires" content="0">
     <title>Scotland's Knockout Watch</title>
     <meta name="description" content="A live checklist of the results Scotland need to reach the World Cup knockout phase.">
-    <link rel="stylesheet" href="styles.css?v=20260628-004458-BST">
+    <link rel="stylesheet" href="styles.css?v=20260628-142742-BST">
   </head>
   <body>
     <header class="hero">
@@ -33,6 +33,7 @@
         <p class="intro-update"><strong>Update: 26 June 2026, 21:55 BST.</strong> One of those chances has failed, so five remain.</p>
         <p class="intro-update"><strong>Update: 27 June 2026, 05:55 BST.</strong> Spain beat Uruguay, but Egypt drew Iran. Scotland now have one success, two failed routes, and three routes still to play; all three remaining routes need to deliver.</p>
         <p class="intro-update"><strong>Update: 28 June 2026, 00:18 BST.</strong> Croatia beat Ghana 2-1, so Group L has failed. Scotland now have one success, three failed routes, and two routes still to play; because four successes are required, Scotland can no longer reach the knockout round.</p>
+        <p class="intro-update"><strong>Final update: 28 June 2026, 04:55 BST.</strong> Since the last update, Group K delivered through Colombia's 0-0 draw with Portugal, but Group J failed after Algeria and Austria drew 3-3. Scotland finish with two successful routes and four failed routes, short of the four required.</p>
         <div class="hero__meter" aria-live="polite">
           <div class="meter" role="img" aria-label="0 of 4 required results successful. 0 ongoing, 0 failed.">
             <div class="meter__pie" aria-hidden="true">
@@ -41,7 +42,7 @@
           </div>
           <div>
             <p id="qualification-line" class="qualification-line">Waiting for the matches to begin.</p>
-            <p id="last-updated" class="last-updated">Scores update automatically after kickoff.</p>
+            <p id="last-updated" class="last-updated">Final results are saved locally; no live score feed is queried.</p>
           </div>
         </div>
       </div>
@@ -62,7 +63,7 @@
             <p class="eyebrow">Kickoffs in Scotland time</p>
             <h2 id="matches-title">Match control room</h2>
           </div>
-          <button id="refresh-scores" class="icon-button" type="button" aria-label="Refresh scores" title="Refresh scores">
+          <button id="refresh-scores" class="icon-button" type="button" aria-label="Final results saved" title="Final results saved" disabled>
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M21 12a9 9 0 0 1-15.36 6.36M3 12A9 9 0 0 1 18.36 5.64"></path>
               <path d="M21 3v6h-6M3 21v-6h6"></path>
@@ -79,6 +80,6 @@
       <p>For displayed matches, app.js converts fractional odds into decimal odds, sums the inverse decimal probabilities to estimate the bookmaker overround, normalises each outcome back to a 100% book, and displays those implied probabilities in the match control room.</p>
     </footer>
 
-    <script src="app.js?v=20260628-004458-BST"></script>
+    <script src="app.js?v=20260628-142742-BST"></script>
   </body>
 </html>

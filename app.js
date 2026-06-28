@@ -158,22 +158,109 @@ const oddsSnapshot = {
   },
 };
 
-const scoreState = new Map();
+const finalResults = {
+  savedAt: "28 Jun, 04:55 BST",
+  matches: {
+    "egy-iran": {
+      home: 1,
+      away: 1,
+      detail: "FT",
+      state: "post",
+      startedAt: "04:00",
+      endedAt: "05:54",
+      goals: [
+        { team: "Egypt", scorer: "Mahmoud Saber", minute: "5'", time: "04:05" },
+        { team: "Iran", scorer: "Ramin Rezaeian", minute: "14'", time: "04:14" },
+      ],
+    },
+    "uru-spain": {
+      home: 0,
+      away: 1,
+      detail: "FT",
+      state: "post",
+      startedAt: "01:00",
+      endedAt: "02:51",
+      goals: [
+        { team: "Spain", scorer: "Alex Baena", minute: "42'", time: "01:42" },
+      ],
+    },
+    "sen-iraq": {
+      home: 5,
+      away: 0,
+      detail: "FT",
+      state: "post",
+      startedAt: "20:00",
+      endedAt: "21:51",
+      goals: [
+        { team: "Senegal", scorer: "Habib Diarra", minute: "4'", time: "20:04" },
+        { team: "Senegal", scorer: "Ismaila Sarr", minute: "56'", time: "21:11" },
+        { team: "Senegal", scorer: "Pape Gueye", minute: "59'", time: "21:14" },
+        { team: "Senegal", scorer: "Pape Gueye", minute: "71'", time: "21:26" },
+        { team: "Senegal", scorer: "Iliman Ndiaye", minute: "82'", time: "21:37" },
+      ],
+    },
+    "alg-austria": {
+      home: 3,
+      away: 3,
+      detail: "FT",
+      state: "post",
+      startedAt: "03:00",
+      endedAt: "04:52",
+      goals: [
+        { team: "Austria", scorer: "Marko Arnautovic", minute: "28'", time: "03:28" },
+        { team: "Algeria", scorer: "Rafik Belghali", minute: "45'", time: "03:45" },
+        { team: "Austria", scorer: "Marcel Sabitzer", minute: "55'", time: "04:10" },
+        { team: "Algeria", scorer: "Riyad Mahrez", minute: "60'", time: "04:15" },
+        { team: "Algeria", scorer: "Riyad Mahrez", minute: "90'+3'", time: "04:48" },
+        { team: "Austria", scorer: "Sasa Kalajdzic", minute: "90'+6'", time: "04:51" },
+      ],
+    },
+    "col-portugal": {
+      home: 0,
+      away: 0,
+      detail: "FT",
+      state: "post",
+      startedAt: "00:30",
+      endedAt: "02:21",
+      goals: [],
+    },
+    "drcongo-uzbekistan": {
+      home: 3,
+      away: 1,
+      detail: "FT",
+      state: "post",
+      startedAt: "00:30",
+      endedAt: "02:23",
+      goals: [
+        { team: "Uzbekistan", scorer: "Eldor Shomurodov", minute: "10'", time: "00:40" },
+        { team: "DR Congo", scorer: "Yoane Wissa", minute: "68'", time: "01:53" },
+        { team: "DR Congo", scorer: "Fiston Mayele", minute: "78'", time: "02:03" },
+        { team: "DR Congo", scorer: "Yoane Wissa", minute: "90'+1'", time: "02:16" },
+      ],
+    },
+    "croatia-ghana": {
+      home: 2,
+      away: 1,
+      detail: "FT",
+      state: "post",
+      startedAt: "22:00",
+      endedAt: "23:53",
+      goals: [
+        { team: "Croatia", scorer: "Petar Sucic", minute: "31'", time: "22:31" },
+        { team: "Ghana", scorer: "Derrick Luckassen", minute: "73'", time: "23:28" },
+        { team: "Croatia", scorer: "Nikola Vlasic", minute: "83'", time: "23:38" },
+      ],
+    },
+  },
+};
+
+const scoreState = new Map(Object.entries(finalResults.matches));
 const conditionGrid = document.querySelector("#conditions-grid");
 const matchesGrid = document.querySelector("#matches-grid");
 const meter = document.querySelector(".meter");
 const qualificationLine = document.querySelector("#qualification-line");
 const lastUpdated = document.querySelector("#last-updated");
 const refreshButton = document.querySelector("#refresh-scores");
-
-function normalise(value) {
-  return value
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9 ]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
 
 function formatKickoff(iso) {
   return new Intl.DateTimeFormat("en-GB", {
@@ -186,24 +273,9 @@ function formatKickoff(iso) {
   }).format(new Date(iso));
 }
 
-function formatCountdown(iso) {
-  const remaining = new Date(iso).getTime() - Date.now();
-  if (remaining <= 0) return "In play window";
-  const hours = Math.floor(remaining / 36e5);
-  const minutes = Math.floor((remaining % 36e5) / 6e4);
-  if (hours >= 24) return `${Math.floor(hours / 24)}d ${hours % 24}h`;
-  if (hours > 0) return `${hours}h ${minutes}m`;
-  return `${Math.max(minutes, 1)}m`;
-}
-
-function hasStarted(match) {
-  return Date.now() >= new Date(match.kickoff).getTime();
-}
-
 function matchClockLabel(match, score) {
-  if (!hasStarted(match)) return `Starts in ${formatCountdown(match.kickoff)}`;
-  if (!score?.detail || score.detail.toLowerCase() === "scheduled") return "Score pending";
-  return score.detail;
+  if (!score) return "Final score unavailable";
+  return `Final: ${score.startedAt}-${score.endedAt} BST`;
 }
 
 function oddsToDecimal(odds) {
@@ -295,6 +367,35 @@ function oddsMarkup(match) {
   `;
 }
 
+function finalTimelineMarkup(match) {
+  const result = scoreState.get(match.id);
+  if (!result) return "";
+
+  const goalRows = result.goals.length
+    ? result.goals
+        .map(
+          (goal) => `
+            <li>
+              <span>${goal.time}</span>
+              <strong>${goal.team}</strong>
+              ${goal.scorer} (${goal.minute})
+            </li>
+          `,
+        )
+        .join("")
+    : "<li><span>--</span><strong>No goals</strong> Scoreless draw.</li>";
+
+  return `
+    <div class="match-card__timeline" aria-label="Saved final timeline">
+      <div class="match-card__timeline-top">
+        <span>Started ${result.startedAt} BST</span>
+        <span>Ended ${result.endedAt} BST</span>
+      </div>
+      <ul>${goalRows}</ul>
+    </div>
+  `;
+}
+
 function renderShell() {
   conditionGrid.innerHTML = conditions
     .map(
@@ -322,6 +423,7 @@ function renderShell() {
             <p class="match-card__time">${formatKickoff(match.kickoff)}<br><strong>${matchClockLabel(match)}</strong></p>
             <p class="match-card__score">---</p>
           </div>
+          ${finalTimelineMarkup(match)}
           ${oddsMarkup(match)}
           <p class="match-card__desired">${match.desired}</p>
           <p class="match-card__status">WAITING</p>
@@ -331,88 +433,8 @@ function renderShell() {
     .join("");
 }
 
-function matchEventToFixture(event) {
-  const competitors = event?.competitions?.[0]?.competitors || [];
-  const home = competitors.find((team) => team.homeAway === "home");
-  const away = competitors.find((team) => team.homeAway === "away");
-  if (!home || !away) return null;
-
-  const homeNames = [
-    home.team?.displayName,
-    home.team?.shortDisplayName,
-    home.team?.name,
-    home.team?.abbreviation,
-  ]
-    .filter(Boolean)
-    .map(normalise);
-  const awayNames = [
-    away.team?.displayName,
-    away.team?.shortDisplayName,
-    away.team?.name,
-    away.team?.abbreviation,
-  ]
-    .filter(Boolean)
-    .map(normalise);
-
-  return matches.find((match) => {
-    const homeAliases = match.aliases[0].map(normalise);
-    const awayAliases = match.aliases[1].map(normalise);
-    const homeMatches = homeNames.some((name) => homeAliases.includes(name));
-    const awayMatches = awayNames.some((name) => awayAliases.includes(name));
-    return homeMatches && awayMatches;
-  });
-}
-
-async function fetchScores() {
-  if (!matches.some(hasStarted)) return 0;
-
-  const dates = ["20260626", "20260627", "20260628"];
-  const endpoints = [
-    "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard",
-    "https://site.web.api.espn.com/apis/v2/sports/soccer/fifa.world/scoreboard",
-  ];
-
-  const fetchJson = async (url) => {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5500);
-    try {
-      const response = await fetch(url, { cache: "no-store", signal: controller.signal });
-      if (!response.ok) return null;
-      return response.json();
-    } catch {
-      return null;
-    } finally {
-      clearTimeout(timeout);
-    }
-  };
-
-  const payloads = await Promise.all(
-    endpoints.flatMap((endpoint) => dates.map((date) => fetchJson(`${endpoint}?dates=${date}&limit=1000`))),
-  );
-
-  let matched = 0;
-  for (const payload of payloads) {
-    if (!payload) continue;
-    for (const event of payload.events || []) {
-      const fixture = matchEventToFixture(event);
-      if (!fixture) continue;
-      const competitors = event.competitions[0].competitors;
-      const home = competitors.find((team) => team.homeAway === "home");
-      const away = competitors.find((team) => team.homeAway === "away");
-      scoreState.set(fixture.id, {
-        home: Number.parseInt(home.score, 10),
-        away: Number.parseInt(away.score, 10),
-        detail: event.status?.type?.shortDetail || event.status?.type?.detail || "Live",
-        state: event.status?.type?.state || "pre",
-      });
-      matched += 1;
-    }
-  }
-  return matched;
-}
-
 function scoreLabel(match, score) {
-  if (!hasStarted(match) || !score) return "---";
+  if (!score) return "---";
   return `${score.home} - ${score.away}`;
 }
 
@@ -420,28 +442,21 @@ function updateMatchCards() {
   for (const match of matches) {
     const card = document.querySelector(`[data-match="${match.id}"]`);
     const score = scoreState.get(match.id);
-    const started = hasStarted(match);
     const helping = score ? match.helps(score) : false;
-    const ongoingGood = started && score && helping && score.state !== "post";
-    const ongoingBad = started && score && !helping && score.state !== "post";
 
     card.classList.remove("is-good", "is-bad", "is-ongoing-good", "is-ongoing-bad", "is-waiting");
-    card.classList.add(!started || !score ? "is-waiting" : ongoingGood ? "is-ongoing-good" : helping ? "is-good" : ongoingBad ? "is-ongoing-bad" : "is-bad");
+    card.classList.add(!score ? "is-waiting" : helping ? "is-good" : "is-bad");
 
     card.querySelector(".match-card__time").innerHTML = `${formatKickoff(match.kickoff)}<br><strong>${matchClockLabel(
       match,
       score,
     )}</strong>`;
     card.querySelector(".match-card__score").textContent = scoreLabel(match, score);
-    card.querySelector(".match-card__status").textContent = !started || !score
+    card.querySelector(".match-card__status").textContent = !score
       ? "WAITING"
-      : ongoingGood
-        ? "ONGOING"
-        : helping
+      : helping
         ? "SUCCESS"
-        : ongoingBad
-          ? "Currently not enough"
-          : "Failed";
+        : "Failed";
   }
 }
 
@@ -450,23 +465,18 @@ function evaluateCondition(condition) {
   const knownScores = conditionMatches
     .map((match) => ({ match, score: scoreState.get(match.id) }))
     .filter((entry) => entry.score);
-  const started = conditionMatches.some(hasStarted);
 
-  if (!started) {
-    return { state: "waiting", pill: "Waiting", line: "Match not started." };
-  }
   if (knownScores.length === 0) {
-    return { state: "waiting", pill: "Pending", line: "Waiting for score data." };
+    return { state: "waiting", pill: "Pending", line: "Saved final score unavailable." };
   }
 
   const helps = knownScores.some(({ match, score }) => match.helps(score));
   const scoreBits = knownScores.map(({ match, score }) => `${match.home} ${score.home}-${score.away} ${match.away}`);
-  const stillLive = knownScores.some(({ score }) => score.state !== "post");
 
   return {
     state: helps ? "good" : "bad",
-    live: stillLive,
-    pill: stillLive ? (helps ? "Ongoing" : "Currently not enough") : helps ? "Success" : "Failed",
+    live: false,
+    pill: helps ? "Success" : "Failed",
     line: scoreBits.join(" / "),
   };
 }
@@ -554,43 +564,16 @@ function updateConditionCards() {
   );
   qualificationLine.textContent =
     currentlyGood >= 4
-      ? "Current live picture would put Scotland through."
-      : `Live picture: ${success} success, ${ongoing} ongoing, ${failed} failed.`;
+      ? "Final tally would have put Scotland through."
+      : `Final tally: ${success} success, ${ongoing} ongoing, ${failed} failed.`;
 }
 
-function updateTimestamp(matched = 0) {
-  const stamp = new Intl.DateTimeFormat("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    timeZone: "Europe/Isle_of_Man",
-    timeZoneName: "short",
-  }).format(new Date());
-  const suffix = matched > 0 ? `${matched} match feed${matched === 1 ? "" : "s"} matched.` : "No matching live feed data yet.";
-  lastUpdated.textContent = `Last checked ${stamp}. ${suffix}`;
-}
-
-async function refreshScores() {
+function updateTimestamp() {
+  lastUpdated.textContent = `Final results saved ${finalResults.savedAt}. No live score feed is queried.`;
   refreshButton.disabled = true;
-  let matched = 0;
-  try {
-    matched = await fetchScores();
-  } finally {
-    updateMatchCards();
-    updateConditionCards();
-    updateTimestamp(matched);
-    refreshButton.disabled = false;
-  }
 }
 
 renderShell();
 updateMatchCards();
 updateConditionCards();
-refreshScores();
-setInterval(refreshScores, 60_000);
-setInterval(() => {
-  updateMatchCards();
-  updateConditionCards();
-}, 30_000);
-
-refreshButton.addEventListener("click", refreshScores);
+updateTimestamp();
